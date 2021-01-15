@@ -6,7 +6,7 @@ import java.util.Arrays;
 
 @Path("zvjer")
 public class zvjerinec {
-    public String[] enimelz;
+    public static String[] enimelz;
 
     @PUT
     public Response addzvjer(@FormParam("animal") String name, @FormParam("id") int pos){

@@ -24,10 +24,11 @@ public class zvjerinec {
 
     @GET
     public Response getzvjer(@DefaultValue("-2147483648") @QueryParam("id") int pos){
+        StringBuilder sendthis = new StringBuilder();
         if (pos == -2147483648) {
-            StringBuilder sendthis = new StringBuilder();
             for (String enimel : enimelz) {
                 sendthis.append(enimel);
+                sendthis.append(", ");
             }
             return Response.ok(sendthis.toString()).build();
         }

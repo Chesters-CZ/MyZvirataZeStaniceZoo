@@ -24,7 +24,13 @@ public class zvjerinec {
 
     @GET
     public Response getzvjer(@DefaultValue("-2147483648") @QueryParam("id") int pos){
-        if (pos == -2147483648) return Response.ok((enimelz.toArray(new String[enimelz.size()])).toString()).build();
+        if (pos == -2147483648) {
+            StringBuilder sendthis = new StringBuilder();
+            for (String enimel : enimelz) {
+                sendthis.append(enimel);
+            }
+            return Response.ok(sendthis.toString()).build();
+        }
         return Response.ok(enimelz.get(pos)).build();
     }
 }

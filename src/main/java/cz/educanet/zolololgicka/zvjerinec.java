@@ -1,5 +1,8 @@
 package main.java.cz.educanet.zolololgicka;
 
+import main.java.cz.educanet.obvladacenebotakneco.useremanager;
+
+import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.lang.reflect.Array;
@@ -8,30 +11,30 @@ import java.util.Arrays;
 
 @Path("zvjer")
 public class zvjerinec {
-    public static ArrayList<String> enimelz = new ArrayList<String>();
+    @Inject
+    private useremanager usrmng;
+
+    @POST
+    public Response addzvjer(@DefaultValue("-2147483648") int pos, animels animal) {
+        if (pos == 0) return Response.status(201, "Your animal's id is: " + usrmng.birthanimal(animal)).build();
+        return Response.status(201).build();
+    }
 
     @PUT
-    public Response addzvjer(@QueryParam("animal") String name){
-        enimelz.add(name);
+    public Response editzvjer(int pos, animels animal){
+        usrmng.editanimal(animal, pos);
         return Response.ok().build();
     }
 
     @DELETE
-    public Response remzvjer(@QueryParam("id") int pos){
-        enimelz.remove(pos);
+    public Response remzvjer(int pos) {
+        usrmng.slaughteranimal(pos);
         return Response.ok().build();
     }
 
     @GET
-    public Response getzvjer(@DefaultValue("-2147483648") @QueryParam("id") int pos){
-        StringBuilder sendthis = new StringBuilder();
-        if (pos == -2147483648) {
-            for (String enimel : enimelz) {
-                sendthis.append(enimel);
-                sendthis.append(", ");
-            }
-            return Response.ok(sendthis.toString()).build();
-        }
-        return Response.ok(enimelz.get(pos)).build();
+    public Response getzvjer(@DefaultValue("-2147483648") int pos) {
+        if (pos == -2147483648) return Response.ok(usrmng.getanimalarray()).build();
+        return Response.ok(usrmng.getanimal(pos).toString()).build();
     }
 }

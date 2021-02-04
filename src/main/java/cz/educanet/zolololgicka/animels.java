@@ -9,6 +9,13 @@ public class animels {
     private lifesegment status;
     private genders gender;
 
+    public genders getGender() {
+        return gender;
+    }
+
+    public void setGender(genders gender) {
+        this.gender = gender;
+    }
 
     public String getSpecies() {
         return species;

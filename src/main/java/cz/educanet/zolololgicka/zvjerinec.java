@@ -15,15 +15,18 @@ public class zvjerinec {
     private useremanager usrmng;
 
     @POST
-    public Response addzvjer(@DefaultValue("-2147483648") int pos, animels animal) {
+    public Response addzvjer(/* int pos */animels animal) { // nejde mi přijmout dvě věci naráz
+        int pos=0;
         if (pos == 0) return Response.status(201, "Your animal's id is: " + usrmng.birthanimal(animal)).build();
-        return Response.status(201).build();
+        else usrmng.birthanimal(animal, pos);
+        return Response.status(417).build();
     }
 
     @PUT
-    public Response editzvjer(int pos, animels animal){
-        usrmng.editanimal(animal, pos);
-        return Response.ok().build();
+    public Response editzvjer(/* int pos, animels animal */){
+        return Response.status(501).build();
+        /* usrmng.editanimal(animal, pos);
+        return Response.ok().build(); */
     }
 
     @DELETE

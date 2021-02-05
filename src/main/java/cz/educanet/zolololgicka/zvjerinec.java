@@ -15,28 +15,27 @@ public class zvjerinec {
     private useremanager usrmng;
 
     @POST
-    public Response addzvjer(/* int pos */animels animal) { // nejde mi přijmout dvě věci naráz
-        int pos=0;
-        if (pos == 0) return Response.status(201, "Your animal's id is: " + usrmng.birthanimal(animal)).build();
+    public Response addzvjer(@QueryParam("pos") @DefaultValue("-2147483648") int pos, animels animal) {
+        if (pos == -2147483648)
+            return Response.status(201, "Your animal's id is: " + usrmng.birthanimal(animal)).build();
         else usrmng.birthanimal(animal, pos);
-        return Response.status(417).build();
+        return Response.status(201).build();
     }
 
     @PUT
-    public Response editzvjer(/* int pos, animels animal */){
-        return Response.status(501).build();
-        /* usrmng.editanimal(animal, pos);
-        return Response.ok().build(); */
+    public Response editzvjer(@QueryParam("pos") int pos, animels animal) {
+        usrmng.editanimal(animal, pos);
+        return Response.ok().build();
     }
 
     @DELETE
-    public Response remzvjer(int pos) {
+    public Response remzvjer(@QueryParam("pos") int pos) {
         usrmng.slaughteranimal(pos);
         return Response.ok().build();
     }
 
     @GET
-    public Response getzvjer(@DefaultValue("-2147483648") int pos) {
+    public Response getzvjer(@QueryParam("pos") @DefaultValue("-2147483648") int pos) {
         if (pos == -2147483648) return Response.ok(usrmng.getanimalarray()).build();
         return Response.ok(usrmng.getanimal(pos).toString()).build();
     }
